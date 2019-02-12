@@ -61,7 +61,7 @@ aim.src = 'aim.png';
 
 s1 = new Audio('s1.wav');
 
-
+let villagersNum = 20;
 let villagers = [];
 let speechBubbles = [];
 
@@ -75,7 +75,8 @@ var assassinIndicator = kontra.sprite({
   y: 80,
   color: '#ffffff',
   active: true,
-  startSeq: 60*5,
+
+  startSeq: 60*3,
   active:true,
 
   render(){
@@ -100,7 +101,7 @@ var assassinIndicator = kontra.sprite({
 })
 
 var assassin = kontra.sprite({
-  id:28,
+  id:villagersNum,
   x: 100,
   y: 80,
   color_list: [v1, v2, v3, v4],
@@ -153,25 +154,25 @@ var assassin = kontra.sprite({
         this.y = -this.width/2;
       }
 
-      if (kontra.keys.pressed('up')) {
+      if (kontra.keys.pressed('up') || kontra.keys.pressed('w')) {
         this.dy = -1;
       }
-      else if  (kontra.keys.pressed('down')){
+      else if  (kontra.keys.pressed('down') || kontra.keys.pressed('s')){
         this.dy = 1;
       } else {
         this.dy = 0;
       }
 
-      if (kontra.keys.pressed('left')) {
+      if (kontra.keys.pressed('left') || kontra.keys.pressed('a')) {
         this.dx = -1;
       }
-      else if  (kontra.keys.pressed('right')){
+      else if  (kontra.keys.pressed('right') || kontra.keys.pressed('d')){
         this.dx = 1;
       } else {
         this.dx = 0;
       }
 
-      if (kontra.keys.pressed('space')){
+      if (kontra.keys.pressed('space') || kontra.keys.pressed('q')){
           delta = (new Date()).getTime() - this.talking
           if(speechBubbles[this.id].active && delta > 3000 && this.who != null){
               villagers[this.who].dead = true
@@ -403,7 +404,7 @@ function createSpeechBubble(villager) {
     },
 
     render2(){
-      if(this.active){
+      if(this.active && !target.shot){
         this.render()
       }
     }
@@ -412,7 +413,7 @@ function createSpeechBubble(villager) {
   speechBubbles.push(speechBubble);
 }
 
-for (var i = 0; i < 28; i++) {
+for (var i = 0; i < villagersNum; i++) {
   createVillager(i);
   createSpeechBubble(villagers[i])
 }
